@@ -25,12 +25,19 @@ RUN \
     at \
     jellyfin=${JELLYFIN_RELEASE} \
     mesa-va-drivers \
+    wget \
     xmlstarlet && \
   echo "**** cleanup ****" && \
   rm -rf \
     /tmp/* \
     /var/lib/apt/lists/* \
     /var/tmp/*
+
+RUN \
+  echo "*** install AMD Pro Drivers *****" && \
+  wget https://repo.radeon.com/amdgpu-install/6.1.3/ubuntu/jammy/amdgpu-install_6.1.60103-1_all.deb  && \
+  apt install -y ./amdgpu-install_6.1.60103-1_all.deb && \
+  amdgpu-install -y --usecase=graphics,rocm
 
 # add local files
 COPY root/ / 
